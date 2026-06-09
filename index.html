@@ -5,343 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tumaini Dice CBO – Mbita, Kenya</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700&family=Abril+Fatface&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --sun: #F5A623;
-    --orange: #D4621A;
-    --sky: #1A73B5;
-    --water: #2196A8;
-    --green: #6B8C3E;
-    --deep: #1B2A4A;
-    --cream: #F7F3EC;
-    --white: #FFFFFF;
-    --text: #2C2C2C;
-    --light-text: #666;
-    --accent: #E8902A;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Lato', sans-serif;
-    color: var(--text);
-    background: var(--cream);
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 1000;
-    background: rgba(27, 42, 74, 0.97);
-    backdrop-filter: blur(8px);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 5%;
-    height: 68px;
-    border-bottom: 3px solid var(--sun);
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 12px; text-decoration: none;
-  }
-  .nav-logo img { height: 48px; width: 48px; border-radius: 50%; object-fit: cover; }
-  .nav-logo span {
-    font-family: 'Playfair Display', serif;
-    color: var(--sun);
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a {
-    color: #ccc; text-decoration: none; font-size: 0.85rem;
-    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--sun); }
-  .nav-cta {
-    background: var(--sun); color: var(--deep) !important;
-    padding: 8px 18px; border-radius: 4px;
-  }
-  .nav-cta:hover { background: var(--orange); color: #fff !important; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-  .hamburger span { width: 24px; height: 2px; background: #fff; }
-
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    background:
-      linear-gradient(to bottom, rgba(27,42,74,0.55) 0%, rgba(27,42,74,0.3) 40%, rgba(27,42,74,0.7) 100%),
-      url('https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=1600&q=80') center/cover no-repeat;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 100px 5% 60px;
-    position: relative; overflow: hidden;
-  }
-  .hero-badge {
-    background: var(--sun); color: var(--deep);
-    padding: 5px 18px; border-radius: 20px;
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    margin-bottom: 24px; display: inline-block;
-    animation: fadeDown 0.8s ease both;
-  }
-  #hero h1 {
-    font-family: 'Abril Fatface', serif;
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
-    color: #fff; line-height: 1.05;
-    text-shadow: 0 4px 24px rgba(0,0,0,0.4);
-    animation: fadeDown 0.9s 0.1s ease both;
-  }
-  #hero h1 span { color: var(--sun); }
-  .hero-sub {
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    color: rgba(255,255,255,0.85);
-    max-width: 640px; margin: 20px auto 36px;
-    font-weight: 300; line-height: 1.7;
-    animation: fadeDown 1s 0.2s ease both;
-  }
-  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-    animation: fadeDown 1s 0.3s ease both;
-  }
-  .btn-primary {
-    background: var(--sun); color: var(--deep);
-    padding: 14px 32px; border-radius: 4px;
-    font-weight: 700; font-size: 0.9rem; text-decoration: none;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 20px rgba(245,166,35,0.4);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,166,35,0.5); }
-  .btn-outline {
-    border: 2px solid rgba(255,255,255,0.7); color: #fff;
-    padding: 13px 30px; border-radius: 4px;
-    font-weight: 700; font-size: 0.9rem; text-decoration: none;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .btn-outline:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
-  .hero-wave {
-    position: absolute; bottom: 0; left: 0; width: 100%;
-  }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
-    background: var(--deep);
-    display: flex; justify-content: space-around; flex-wrap: wrap;
-    gap: 0; padding: 0;
-  }
-  .stat-item {
-    flex: 1; min-width: 150px;
-    text-align: center; padding: 28px 20px;
-    border-right: 1px solid rgba(255,255,255,0.08);
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-num {
-    font-family: 'Abril Fatface', serif;
-    font-size: 2.4rem; color: var(--sun); line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.78rem; color: rgba(255,255,255,0.55);
-    text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px;
-  }
-
-  /* ── SECTIONS ── */
-  section { padding: 80px 5%; }
-  .section-tag {
-    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--orange);
-    margin-bottom: 10px;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    color: var(--deep); line-height: 1.2; margin-bottom: 16px;
-  }
-  .section-title em { color: var(--orange); font-style: italic; }
-  .section-lead {
-    font-size: 1.05rem; color: var(--light-text);
-    max-width: 600px; line-height: 1.8; margin-bottom: 48px;
-  }
-
-  /* ── ABOUT ── */
-  #about { background: var(--white); }
-  .about-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-    max-width: 1100px; margin: 0 auto;
-  }
-  .about-logo-wrap {
-    display: flex; align-items: center; justify-content: center;
-  }
-  .about-logo-wrap img {
-    width: min(380px, 100%);
-    filter: drop-shadow(0 12px 40px rgba(27,42,74,0.15));
-    animation: float 5s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-  .vm-cards { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
-  .vm-card {
-    background: var(--cream); border-left: 4px solid var(--sun);
-    padding: 20px 24px; border-radius: 0 8px 8px 0;
-  }
-  .vm-card h3 {
-    font-family: 'Playfair Display', serif; font-size: 1rem;
-    color: var(--orange); text-transform: uppercase; letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-  .vm-card p { font-size: 0.92rem; line-height: 1.7; color: var(--light-text); }
-
-  /* ── OBJECTIVES ── */
-  #objectives { background: var(--deep); }
-  #objectives .section-title { color: #fff; }
-  #objectives .section-lead { color: rgba(255,255,255,0.6); }
-  .obj-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px; max-width: 1100px; margin: 0 auto;
-  }
-  .obj-card {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px; padding: 28px 24px;
-    transition: background 0.25s, transform 0.25s, border-color 0.25s;
-  }
-  .obj-card:hover {
-    background: rgba(245,166,35,0.1); border-color: var(--sun);
-    transform: translateY(-4px);
-  }
-  .obj-num {
-    font-family: 'Abril Fatface', serif; font-size: 2.5rem;
-    color: rgba(245,166,35,0.2); line-height: 1;
-    margin-bottom: 10px;
-  }
-  .obj-card p { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.7; }
-
-  /* ── ACTIVITIES ── */
-  #activities { background: var(--cream); }
-  .act-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px; max-width: 1100px; margin: 0 auto;
-  }
-  .act-card {
-    background: var(--white); border-radius: 12px;
-    padding: 36px 24px; text-align: center;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    transition: transform 0.25s, box-shadow 0.25s;
-  }
-  .act-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
-  .act-icon {
-    font-size: 2.6rem; margin-bottom: 16px;
-    display: inline-block;
-  }
-  .act-card h3 {
-    font-family: 'Playfair Display', serif; font-size: 1.05rem;
-    color: var(--deep); margin-bottom: 10px;
-  }
-  .act-card p { font-size: 0.85rem; color: var(--light-text); line-height: 1.6; }
-
-  /* ── VALUES ── */
-  #values { background: var(--white); text-align: center; }
-  .values-inner { max-width: 800px; margin: 0 auto; }
-  .values-flex {
-    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
-    margin-top: 36px;
-  }
-  .value-pill {
-    background: var(--cream); border: 2px solid var(--green);
-    border-radius: 30px; padding: 10px 26px;
-    font-family: 'Playfair Display', serif; font-size: 1rem;
-    color: var(--deep); font-weight: 700;
-    transition: background 0.2s, color 0.2s;
-  }
-  .value-pill:hover { background: var(--green); color: #fff; }
-
-  /* ── LOCATION ── */
-  #location { background: var(--cream); }
-  .loc-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
-    max-width: 1100px; margin: 0 auto;
-  }
-  .loc-info { }
-  .loc-item {
-    display: flex; gap: 16px; align-items: flex-start;
-    margin-bottom: 28px; padding-bottom: 28px;
-    border-bottom: 1px solid rgba(0,0,0,0.07);
-  }
-  .loc-item:last-child { border-bottom: none; }
-  .loc-icon {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--deep); display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; flex-shrink: 0;
-  }
-  .loc-item h4 {
-    font-family: 'Playfair Display', serif; font-size: 0.95rem;
-    color: var(--orange); margin-bottom: 4px;
-  }
-  .loc-item p, .loc-item a {
-    font-size: 0.92rem; color: var(--text); line-height: 1.6; text-decoration: none;
-  }
-  .loc-item a:hover { color: var(--orange); }
-  .map-embed {
-    border-radius: 12px; overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    height: 380px;
-  }
-  .map-embed iframe { width: 100%; height: 100%; border: none; }
-
-  /* ── CONTACT ── */
-  #contact { background: var(--deep); text-align: center; }
-  #contact .section-title { color: #fff; }
-  #contact .section-lead { color: rgba(255,255,255,0.6); margin: 0 auto 48px; }
-  .contact-cards {
-    display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
-    max-width: 700px; margin: 0 auto 48px;
-  }
-  .contact-card {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 28px 32px; flex: 1; min-width: 200px;
-    text-align: center; text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .contact-card:hover { background: rgba(245,166,35,0.12); transform: translateY(-4px); }
-  .contact-card .cc-icon { font-size: 2rem; margin-bottom: 12px; }
-  .contact-card h4 { color: var(--sun); font-size: 0.8rem; text-transform: uppercase;
-    letter-spacing: 0.1em; margin-bottom: 6px; }
-  .contact-card p { color: rgba(255,255,255,0.8); font-size: 0.92rem; }
-
-  /* ── FOOTER ── */
-  footer {
-    background: #0F1929; color: rgba(255,255,255,0.4);
-    text-align: center; padding: 28px 5%;
-    font-size: 0.82rem; line-height: 1.8;
-  }
-  footer strong { color: var(--sun); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .nav-links { display: none; flex-direction: column; position: absolute;
-      top: 68px; left: 0; width: 100%; background: var(--deep); padding: 20px 5%;
-      gap: 18px;
-    }
-    .nav-links.open { display: flex; }
-    .hamburger { display: flex; }
-    .about-grid, .loc-grid { grid-template-columns: 1fr; }
-    .about-logo-wrap { order: -1; }
-    .map-embed { height: 260px; }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="scroll-progress"></div>
 
 <!-- NAV -->
 <nav>
@@ -349,15 +16,16 @@
     <img src="WhatsApp_Image_2026-05-24_at_11_53_26_AM.jpeg" alt="Tumaini Dice CBO Logo" onerror="this.style.display='none'">
     <span>Tumaini Dice CBO</span>
   </a>
-  <ul class="nav-links" id="navLinks">
+  <ul class="nav-links" id="navLinks" role="navigation">
     <li><a href="#about">About</a></li>
     <li><a href="#objectives">Objectives</a></li>
     <li><a href="#activities">Activities</a></li>
     <li><a href="#values">Values</a></li>
+    <li><a href="#gallery">Gallery</a></li>
     <li><a href="#location">Location</a></li>
     <li><a href="#contact" class="nav-cta">Contact Us</a></li>
   </ul>
-  <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+  <div class="hamburger" id="hamburger" aria-expanded="false" aria-label="Toggle navigation" role="button" tabindex="0">
     <span></span><span></span><span></span>
   </div>
 </nav>
@@ -526,6 +194,282 @@
   </div>
 </section>
 
+<!-- GALLERY -->
+<section id="gallery">
+  <p class="section-tag" style="color:var(--sun)">Our Work in Pictures</p>
+  <h2 class="section-title">Photo <em style="color:var(--sun)">Gallery</em></h2>
+  <p class="section-lead">Real moments from our work — in the office, in the field, and in the heart of the community.</p>
+
+  <!-- Category filter tabs -->
+  <div class="gallery-tabs">
+    <button class="gtab active" onclick="filterGallery('all', this)">All Photos</button>
+    <button class="gtab" onclick="filterGallery('office', this)">🏢 Office &amp; Community</button>
+    <button class="gtab" onclick="filterGallery('events', this)">🎉 Events</button>
+    <button class="gtab" onclick="filterGallery('health', this)">🏥 Health &amp; Covid-19</button>
+    <button class="gtab" onclick="filterGallery('fieldwork', this)">🚤 Field Work</button>
+    <button class="gtab" onclick="filterGallery('training', this)">📋 Training</button>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+
+    <!-- PHOTO 1 -->
+    <div class="photo-card reveal" data-cat="office" data-slot="1">
+      <div class="photo-frame" id="frame-1">
+        <img src="images/photo-1.jpg"
+             alt="At the Office Supporting the Community"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'At the Office Supporting the Community')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">🏢</div>
+          <p class="ph-label">Add <code>images/photo-1.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-1">Preview Photo</label>
+          <input type="file" id="slot-1" class="slot-input" accept="image/*" data-slot="1">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">01</span>
+        <h3 class="photo-title">At the Office Supporting the Community</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 2 -->
+    <div class="photo-card reveal" data-cat="events" data-slot="2">
+      <div class="photo-frame" id="frame-2">
+        <img src="images/photo-2.jpg"
+             alt="End Year Party Appreciating Members"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'End Year Party Appreciating Members')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">🎉</div>
+          <p class="ph-label">Add <code>images/photo-2.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-2">Preview Photo</label>
+          <input type="file" id="slot-2" class="slot-input" accept="image/*" data-slot="2">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">02</span>
+        <h3 class="photo-title">End Year Party Appreciating Members</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 3 -->
+    <div class="photo-card reveal" data-cat="training" data-slot="3">
+      <div class="photo-frame" id="frame-3">
+        <img src="images/photo-3.jpg"
+             alt="Training Members on the Use of EMR to Aid During Report Writing"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'Training Members on the Use of EMR to Aid During Report Writing')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">📋</div>
+          <p class="ph-label">Add <code>images/photo-3.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-3">Preview Photo</label>
+          <input type="file" id="slot-3" class="slot-input" accept="image/*" data-slot="3">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">03</span>
+        <h3 class="photo-title">Training Members on the Use of EMR to Aid During Report Writing</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 4 -->
+    <div class="photo-card reveal" data-cat="health" data-slot="4">
+      <div class="photo-frame" id="frame-4">
+        <img src="images/photo-4.jpg"
+             alt="At Covid-19 Treatment Centre Supporting the Community"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'At Covid-19 Treatment Centre Supporting the Community')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">🏥</div>
+          <p class="ph-label">Add <code>images/photo-4.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-4">Preview Photo</label>
+          <input type="file" id="slot-4" class="slot-input" accept="image/*" data-slot="4">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">04</span>
+        <h3 class="photo-title">At Covid-19 Treatment Centre Supporting the Community</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 5 -->
+    <div class="photo-card reveal" data-cat="fieldwork" data-slot="5">
+      <div class="photo-frame" id="frame-5">
+        <img src="images/photo-5.jpg"
+             alt="With My Team Going for Field Work in Mfangano Island, Suba North"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'With My Team Going for Field Work in Mfangano Island, Suba North')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">🚤</div>
+          <p class="ph-label">Add <code>images/photo-5.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-5">Preview Photo</label>
+          <input type="file" id="slot-5" class="slot-input" accept="image/*" data-slot="5">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">05</span>
+        <h3 class="photo-title">With My Team Going for Field Work in Mfangano Island, Suba North</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 6 -->
+    <div class="photo-card reveal" data-cat="health" data-slot="6">
+      <div class="photo-frame" id="frame-6">
+        <img src="images/photo-6.jpg"
+             alt="Supporting Covid-19 Victims"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'Supporting Covid-19 Victims')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">🤝</div>
+          <p class="ph-label">Add <code>images/photo-6.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-6">Preview Photo</label>
+          <input type="file" id="slot-6" class="slot-input" accept="image/*" data-slot="6">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">06</span>
+        <h3 class="photo-title">Supporting Covid-19 Victims</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 7 -->
+    <div class="photo-card reveal" data-cat="health" data-slot="7">
+      <div class="photo-frame" id="frame-7">
+        <img src="images/photo-7.jpg"
+             alt="Donating Blood to Support Fire Victims at Makongeni Slums, Homa Bay"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'Donating Blood to Support Fire Victims at Makongeni Slums, Homa Bay')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">🩸</div>
+          <p class="ph-label">Add <code>images/photo-7.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-7">Preview Photo</label>
+          <input type="file" id="slot-7" class="slot-input" accept="image/*" data-slot="7">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">07</span>
+        <h3 class="photo-title">Donating Blood to Support Fire Victims at Makongeni Slums, Homa Bay</h3>
+      </div>
+    </div>
+
+    <!-- PHOTO 8 -->
+    <div class="photo-card reveal" data-cat="office" data-slot="8">
+      <div class="photo-frame" id="frame-8">
+        <img src="images/photo-8.jpg"
+             alt="Team Meeting and Community Engagement at the Office"
+             onerror="this.closest('.photo-frame').classList.add('no-image')">
+        <div class="img-overlay" onclick="openLightbox(this.previousElementSibling, 'Team Meeting and Community Engagement at the Office')">
+          <div class="zoom-icon">🔍</div>
+        </div>
+        <div class="photo-placeholder">
+          <div class="ph-upload-icon">👥</div>
+          <p class="ph-label">Add <code>images/photo-8.jpg</code> to your GitHub repo</p>
+          <label class="ph-btn" for="slot-8">Preview Photo</label>
+          <input type="file" id="slot-8" class="slot-input" accept="image/*" data-slot="8">
+        </div>
+      </div>
+      <div class="photo-title-bar">
+        <span class="photo-number">08</span>
+        <h3 class="photo-title">Team Meeting &amp; Community Engagement at the Office</h3>
+      </div>
+    </div>
+
+  </div><!-- /gallery-grid -->
+
+  <!-- GitHub upload guide -->
+  <div class="gallery-how-to" id="photo-guide">
+    <div class="how-to-header">
+      <span class="how-to-icon">🐙</span>
+      <h3>How to Add Your Photos via GitHub</h3>
+    </div>
+    <div class="how-to-steps">
+
+      <div class="how-step">
+        <span class="step-num">1</span>
+        <div>
+          <p><strong>Rename your 8 photos</strong> exactly like this before uploading — the names must match perfectly:</p>
+          <ul class="guide-filelist">
+            <li><code>photo-1.jpg</code> — At the Office Supporting the Community</li>
+            <li><code>photo-2.jpg</code> — End Year Party Appreciating Members</li>
+            <li><code>photo-3.jpg</code> — Training on EMR for Report Writing</li>
+            <li><code>photo-4.jpg</code> — At Covid-19 Treatment Centre</li>
+            <li><code>photo-5.jpg</code> — Field Work in Mfangano Island</li>
+            <li><code>photo-6.jpg</code> — Supporting Covid-19 Victims</li>
+            <li><code>photo-7.jpg</code> — Donating Blood at Makongeni Slums</li>
+            <li><code>photo-8.jpg</code> — Team Meeting at the Office</li>
+          </ul>
+          <p style="margin-top:10px">✅ Use <code>.jpg</code> or <code>.jpeg</code> format. If your photos are <code>.png</code> rename them <code>photo-1.png</code> etc. and update the <code>src</code> in <code>index.html</code> to match.</p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <span class="step-num">2</span>
+        <div>
+          <p><strong>Go to your GitHub repository</strong> at <code>github.com</code> — the one where your website files (<code>index.html</code>, <code>style.css</code>, <code>main.js</code>) are stored. If you haven't created one yet, click <strong>New repository</strong>, name it <code>tumaini-dice-cbo</code>, set it to <strong>Public</strong>, and click <strong>Create repository</strong>. Then upload your three website files first.</p>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <span class="step-num">3</span>
+        <div>
+          <p><strong>Create an <code>images</code> folder and upload your photos:</strong></p>
+          <ol class="guide-steps-inner">
+            <li>Inside your repository, click <strong>Add file → Upload files</strong></li>
+            <li>In the file path box at the top, type <code>images/</code> (this creates the folder)</li>
+            <li>Drag and drop all 8 renamed photo files into the upload area, or click <strong>choose your files</strong></li>
+            <li>Scroll down, write a commit message like <em>"Add gallery photos"</em></li>
+            <li>Click <strong>Commit changes</strong></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <span class="step-num">4</span>
+        <div>
+          <p><strong>Enable GitHub Pages</strong> so your site is live on the internet:</p>
+          <ol class="guide-steps-inner">
+            <li>In your repository, click <strong>Settings</strong> (top menu)</li>
+            <li>Scroll down to <strong>Pages</strong> in the left sidebar</li>
+            <li>Under <strong>Source</strong>, select <strong>Deploy from a branch</strong></li>
+            <li>Choose <strong>main</strong> branch and <strong>/ (root)</strong> folder, then click <strong>Save</strong></li>
+            <li>Wait about 1–2 minutes — GitHub will give you a live URL like <code>https://yourusername.github.io/tumaini-dice-cbo/</code></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="how-step">
+        <span class="step-num">5</span>
+        <div>
+          <p><strong>Your photos are now live!</strong> The gallery will automatically show all 8 photos because the <code>index.html</code> already points to <code>images/photo-1.jpg</code> through <code>images/photo-8.jpg</code>. No code editing needed — as long as your files are named correctly and placed in the <code>images/</code> folder.</p>
+          <p style="margin-top:10px">📱 <strong>From your phone?</strong> The GitHub mobile app (free on Android &amp; iOS) lets you do all of this from your phone — download it from your app store, sign in, and follow the same steps above.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <span class="lb-close" onclick="closeLightbox()">✕</span>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
 <!-- LOCATION -->
 <section id="location">
   <div class="loc-grid">
@@ -593,21 +537,10 @@
 <footer>
   <p><strong>Tumaini Dice CBO</strong> · Mbita Town, Suba North Sub-County, Homa Bay County, Kenya</p>
   <p style="margin-top:6px">📧 tumainicbombita@gmail.com &nbsp;|&nbsp; 📞 +254 795 848 580</p>
-  <p style="margin-top:10px;font-size:0.75rem">© 2025 Tumaini Dice CBO. All rights reserved. Building resilient communities, one initiative at a time.</p>
+  <p style="margin-top:10px;font-size:0.75rem">© <span id="footer-year">2025</span> Tumaini Dice CBO. All rights reserved. Building resilient communities, one initiative at a time.</p>
 </footer>
 
-<script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => io.observe(r));
-</script>
+<script src="main.js" defer></script>
+<button id="back-to-top" title="Back to top" aria-label="Back to top">&#8679;</button>
 </body>
 </html>

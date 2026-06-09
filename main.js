@@ -162,22 +162,18 @@
 
 /* ── 6. GALLERY FILTER ── */
 function filterGallery(cat, btn) {
-  // Update active tab
   document.querySelectorAll('.gtab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
 
-  // Show/hide segments with a smooth fade
-  document.querySelectorAll('.gallery-segment').forEach(seg => {
-    const match = cat === 'all' || seg.dataset.cat === cat;
+  document.querySelectorAll('.photo-card').forEach(card => {
+    const match = cat === 'all' || card.dataset.cat === cat;
     if (match) {
-      seg.style.display = '';
-      // Slight delay so display:'' takes effect before opacity transition
-      requestAnimationFrame(() => seg.style.opacity = '1');
+      card.classList.remove('hidden');
+      requestAnimationFrame(() => { card.style.opacity = '1'; card.style.transform = ''; });
     } else {
-      seg.style.opacity = '0';
-      setTimeout(() => {
-        if (seg.style.opacity === '0') seg.style.display = 'none';
-      }, 300);
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.96)';
+      setTimeout(() => { if (card.style.opacity === '0') card.classList.add('hidden'); }, 280);
     }
   });
 }
@@ -190,68 +186,54 @@ function filterGallery(cat, btn) {
   const lbCaption = document.getElementById('lbCaption');
   if (!lightbox) return;
 
-  // Open
-  window.openLightbox = function(el) {
-    const img     = el.querySelector('img');
-    const caption = el.querySelector('.g-overlay p');
-    if (!img) return; // placeholder – no image yet
-
-    lbImg.src = img.src;
-    lbImg.alt = caption ? caption.textContent : 'Gallery image';
-    lbCaption.textContent = caption ? caption.textContent : '';
+  window.openLightbox = function(imgEl, captionText) {
+    lbImg.src = imgEl.src;
+    lbImg.alt = captionText || '';
+    lbCaption.textContent = captionText || '';
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   };
 
-  // Close
   window.closeLightbox = function(e) {
     if (!e || e.target === lightbox || (e.target && e.target.classList.contains('lb-close'))) {
       lightbox.classList.remove('open');
       document.body.style.overflow = '';
-      // Small delay before clearing src to avoid flicker
       setTimeout(() => { lbImg.src = ''; }, 250);
     }
   };
 
-  // Keyboard close
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') window.closeLightbox({ target: lightbox });
   });
 })();
 
 
-/* ── 8. PHOTO PREVIEW UPLOAD ── */
-window.previewPhotos = function(event) {
-  const files       = Array.from(event.target.files);
-  const placeholders = document.querySelectorAll('.gallery-item.placeholder');
+/* ── 8. PER-SLOT PHOTO PREVIEW (local preview only) ── */
+(function initSlotUploads() {
+  document.querySelectorAll('.slot-input').forEach(input => {
+    input.addEventListener('change', function() {
+      const file = this.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
 
-  files.forEach((file, i) => {
-    if (i >= placeholders.length) return;
-    if (!file.type.startsWith('image/')) return;
+      const frame   = this.closest('.photo-frame');
+      const titleEl = this.closest('.photo-card').querySelector('.photo-title');
+      const title   = titleEl ? titleEl.textContent.trim() : 'Community Photo';
+      const img     = frame.querySelector('img');
 
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const item    = placeholders[i];
-      const overlay = item.querySelector('.g-overlay');
-      const caption = overlay ? overlay.querySelector('p') : null;
-      const label   = caption ? caption.textContent : 'Community Photo';
-
-      item.innerHTML = `
-        <img src="${ev.target.result}" alt="${label}">
-        <div class="g-overlay"><p>${label}</p></div>
-      `;
-      item.classList.remove('placeholder');
-      item.setAttribute('onclick', '');
-      item.addEventListener('click', function() {
-        window.openLightbox(this);
-      });
-    };
-    reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        if (img) {
+          img.src = ev.target.result;
+          img.alt = title;
+        }
+        // Remove no-image state so real img + overlay show
+        frame.classList.remove('no-image');
+      };
+      reader.readAsDataURL(file);
+      this.value = '';
+    });
   });
-
-  // Reset input so the same files can be re-selected
-  event.target.value = '';
-};
+})();
 
 
 /* ── 9. SMOOTH SCROLL OFFSET (compensate for fixed nav) ── */
